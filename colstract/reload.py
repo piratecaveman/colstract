@@ -11,21 +11,25 @@ class Reload(object):
         self.logger = Logger(log_file=self.config_options.log_file, name='colstact-reload').get_logger()
 
     def xrdb(self) -> int:
+        if not self.exists('xrdb'):
+            self.logger.error("xrdb does not exist")
+            return 1
+
+        self.logger.info("Attempting to merge xrdb")
         command = [
             'xrdb',
             '-merge',
-            pathlib.Path(self.config_options.config.get('output_dir')) / 'colors.Xresources'
+            str(pathlib.Path(self.config_options.config.get('output_dir')) / 'colors.Xresources')
         ]
 
         self.logger.info(f"Running {' '.join(command)}")
+
         output_raw = subprocess.run(command, capture_output=True)
         return_code = output_raw.returncode
         output = output_raw.stdout.decode('utf-8').strip('\n')
 
         self.logger.info(f"The process completed with he stdout {output}")
         self.logger.info(f"The return code is : {return_code}")
-        print(output)
-        print(f"xrdb merge return code: {return_code}")
 
         return return_code
 
@@ -33,22 +37,23 @@ class Reload(object):
         self.logger.info(f"Attempting to apply color scheme to TTY")
         command = [
             "sh",
-            pathlib.Path(self.config_options.config.get("output_dir")) / 'colors-tty.sh'
+            str(pathlib.Path(self.config_options.config.get("output_dir")) / 'colors-tty.sh')
         ]
         self.logger.info(f"Running command {' '.join(command)}")
-        output_raw = subprocess.run(command, capture_output=True, shell=True)
+        output_raw = subprocess.run(command, capture_output=True)
         output = output_raw.stdout.decode('utf-8').strip('\n')
         return_code = output_raw.returncode
 
         self.logger.info(f"The process exited with the stdout: {output}")
         self.logger.info(f"The return code is: {return_code}")
 
-        print(output)
-        print(f"The return code is: {return_code}")
-
         return return_code
 
     def i3(self) -> int:
+        if not self.exists('i3-msg'):
+            self.logger.error("i3-msg does not exist")
+            return 1
+
         self.logger.info("Attempting to reload i3-wm")
         command = [
             "i3-msg",
@@ -63,12 +68,13 @@ class Reload(object):
         self.logger.info(f"The process exited with the stdout: {output}")
         self.logger.info(f"The return code is: {return_code}")
 
-        print(output)
-        print(f"The return code is: {return_code}")
-
         return return_code
 
     def bspwm(self) -> int:
+        if not self.exists('bspc'):
+            self.logger.error("bspc does not exist")
+            return 1
+
         self.logger.info("Attempting to reload bspwm")
         command = [
             "bspc",
@@ -84,19 +90,20 @@ class Reload(object):
         self.logger.info(f"The process exited with the stdout: {output}")
         self.logger.info(f"The return code is: {return_code}")
 
-        print(output)
-        print(f"The return code is: {return_code}")
-
         return return_code
 
     def kitty(self) -> int:
+        if not self.exists('kitty'):
+            self.logger.error("kitty does not exist")
+            return 1
+
         self.logger.info("Attempting to reload kitty")
         command = [
             "kitty",
             "@",
             "set-colors",
             "--all",
-            pathlib.Path(self.config_options.config.get("output_dir")) / 'colors-kitty.conf'
+            str(pathlib.Path(self.config_options.config.get("output_dir")) / 'colors-kitty.conf')
         ]
 
         self.logger.info(f"Running command {' '.join(command)}")
@@ -106,9 +113,6 @@ class Reload(object):
 
         self.logger.info(f"The process exited with the stdout: {output}")
         self.logger.info(f"The return code is: {return_code}")
-
-        print(output)
-        print(f"The return code is: {return_code}")
 
         return return_code
 
@@ -128,12 +132,13 @@ class Reload(object):
         self.logger.info(f"The process exited with the stdout: {output}")
         self.logger.info(f"The return code is: {return_code}")
 
-        print(output)
-        print(f"The return code is: {return_code}")
-
         return return_code
 
     def sway(self) -> int:
+        if not self.exists('swaymsg'):
+            self.logger.error("swaymsg does not exist")
+            return 1
+
         self.logger.info("Attempting to reload sway")
         command = [
             "swaymsg",
@@ -147,9 +152,6 @@ class Reload(object):
 
         self.logger.info(f"The process exited with the stdout: {output}")
         self.logger.info(f"The return code is: {return_code}")
-
-        print(output)
-        print(f"The return code is: {return_code}")
 
         return return_code
 
@@ -170,3 +172,13 @@ class Reload(object):
         if self.polybar() != 0:
             self.logger.error("Reloading  polybar failed")
         return
+
+    @staticmethod
+    def exists(program):
+        output = subprocess.run(['which', program], capture_output=True)
+        if "not found" in output.stdout.decode('utf-8').strip('\n'):
+            return False
+        elif output.returncode == 1:
+            return False
+        else:
+            return True
