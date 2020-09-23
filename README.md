@@ -40,6 +40,20 @@ Or if you want to provide a config file: `python -m colstract --config /path/to/
 ## Output
 The output path is `$HOME/.cache/colstract/`. This is, as of now, not change-able. 
 
+## Reload Environment
+If the option is set in the config, the program will optionally reload the following:
+```
+xrdb (merge)
+TTY
+i3-wm
+bspwm
+sway
+kitty
+polybar
+```
+And many others if you point their configurations to colstract's generated files.
+For more info on how to setup various programs see PyWal's wiki:  [PyWal Wiki](https://github.com/dylanaraps/pywal/wiki/Customization)
+
 ## Wallpaper
 The program can optionally apply a wallpaper for you if a wallpaper path is provided in the config.
 Currently, only `feh` and `nitrogen` backends are supported. The backend you choose must be installed. 

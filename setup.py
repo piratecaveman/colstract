@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='colstract',
-    version='0.1',
+    version='0.2',
     packages=setuptools.find_packages(),
     url='https://github.com/piratecaveman/colstract',
     license='None',

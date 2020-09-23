@@ -21,7 +21,8 @@ class Config(object):
                 "path": None,
                 "setter": None,
                 "setter_option": None
-            }
+            },
+            'reload_env': False
         }
         # logger
         self.logger = Logger(name='colstract-config', log_file=str(self.log_file)).get_logger()
@@ -81,5 +82,7 @@ class Config(object):
                 self.logger.error(f'Wallpaper file does not exist at {config_.get("wallpaper_options").get("path")}')
         else:
             self.logger.info('apply_wallpaper is False. Wallpaper will not be processed')
+
+        config_['reload_env'] = data.get('reload_env', False)
 
         return config_

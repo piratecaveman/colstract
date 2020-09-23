@@ -6,5 +6,6 @@
     "path": "/media/ntfs/shared/syncthing/wallpapers/wallpapers-2/wallpaper.jpg",
     "setter": "feh",
     "setter_option": "--bg-fill"
-  }
+  },
+  "reload_env": true
 }

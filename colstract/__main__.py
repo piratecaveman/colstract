@@ -3,6 +3,7 @@ import argparse
 from colstract.template_generator import TemplateGenerator
 from colstract.config import Config
 from colstract.wallpaper_setter import WallSetter
+from colstract.reload import Reload
 
 
 arg_parser = argparse.ArgumentParser()
@@ -22,4 +23,8 @@ if config.config.get('wallpaper_options').get('apply_wallpaper'):
 
 generator = TemplateGenerator(args.config_file)
 generator.generate()
+
+if config.config.get('reload_env') is True:
+    reloader = Reload(args.config_file)
+    reloader.reload_all()
 exit(0)
