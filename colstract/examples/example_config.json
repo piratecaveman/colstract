@@ -1,0 +1,10 @@
+{
+  "output_dir": "/home/user/.cache/colstract/",
+  "xresources_path": "/home/user/.aesthetics/xresources.d/colorschemes/monokai-xresources",
+  "wallpaper_options": {
+    "apply_wallpaper": true,
+    "path": "/media/ntfs/shared/syncthing/wallpapers/wallpapers-2/wallpaper.jpg",
+    "setter": "feh",
+    "setter_option": "--bg-fill"
+  }
+}

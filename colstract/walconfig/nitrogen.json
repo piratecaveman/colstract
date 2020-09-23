@@ -1,0 +1,11 @@
+{
+  "name": "nitrogen",
+  "options": [
+    "--set-auto",
+    "--set-centered",
+    "--set-scaled",
+    "--set-tiled",
+    "--set-zoom",
+    "--set-zoom-fill"
+  ]
+}

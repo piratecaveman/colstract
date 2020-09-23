@@ -1,0 +1,4 @@
+include README.md
+include colstract/examples/*
+include colstract/templates/*
+include colstract/walconfig/*

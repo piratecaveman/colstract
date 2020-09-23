@@ -1,0 +1,10 @@
+{
+  "name": "feh",
+  "options": [
+    "--bg-center",
+    "--bg-fill",
+    "--bg-max",
+    "--bg-scale",
+    "--bg-tile"
+  ]
+}
